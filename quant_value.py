@@ -7,13 +7,8 @@ import math
 from secrets import IEX_CLOUD_API_TOKEN
 
 stocks = pd.read_csv('sp_500_stocks.csv')
-symbol = 'aapl'
+symbol = ''
 api_url = f'https://sandbox.iexapis.com/stable/stock/{symbol}/quote?token={IEX_CLOUD_API_TOKEN}'
-data = requests.get(api_url).json()
-
-price = data['latestPrice']
-pe_ratio = data['peRatio']
-
 
 # chunks function adapted from:
 # https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
@@ -51,4 +46,32 @@ for symbol_string in symbol_strings:
                 index = my_columns
             ), ignore_index = True
         )
+
+# Remove glamour stocks
+# Sort the dataframe by the stocks' price to earnings ratio, 
+# drop all stocks outside the top 50,
+# and remove any stocks with a negateive PTE ratio
+final_dataframe.sort_values("Price-to-Earnings Ratio", ascending = True, inplace = True)
+final_dataframe = final_dataframe[final_dataframe['Price-to-Earnings Ratio'] > 0]
+final_dataframe = final_dataframe[:50]
+final_dataframe.reset_index(inplace = True)
+final_dataframe.drop('index', axis=1, inplace = True)
+
+
+def portfolio_input():
+    global portfolio_size 
+    portfolio_size = input("Enter the value of your portfolio:")
+
+    try:
+        val = float(portfolio_size)
+    except:
+        print("Please anter an actual number \n Try again:")
+        portfolio_size = input("Enter the size of your portfolio:")
+
+portfolio_input()
+# print(final_dataframe)
+
+position_size = float(portfolio_size)/len(final_dataframe.index)
+for row in final_dataframe.index:
+    final_dataframe.loc[row, 'Number of Shares to Buy'] = math.floor(position_size/final_dataframe.loc[row, 'Price'])
 print(final_dataframe)
