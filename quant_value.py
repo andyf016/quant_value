@@ -8,6 +8,7 @@ from secrets import IEX_CLOUD_API_TOKEN
 
 stocks = pd.read_csv('sp_500_stocks.csv')
 symbol = ''
+
 api_url = f'https://sandbox.iexapis.com/stable/stock/{symbol}/quote?token={IEX_CLOUD_API_TOKEN}'
 
 # chunks function adapted from:
@@ -75,3 +76,34 @@ position_size = float(portfolio_size)/len(final_dataframe.index)
 for row in final_dataframe.index:
     final_dataframe.loc[row, 'Number of Shares to Buy'] = math.floor(position_size/final_dataframe.loc[row, 'Price'])
 print(final_dataframe)
+
+"""
+Start filtering stocks with the lowest percentiles on the following metrics:
+- Price-to-earnings ratio
+- Price-to-book ratio
+- Price-to-sales ratio
+- Enterprise Value divided by Earnings Before Interest, Taxes, Depreciation, and Amortization
+- Enterprise value divided by Gross Profit
+
+Some of these metrics arent provided by the IEX Cloud API and must be computed
+manually after pulling raw data
+"""
+
+symbol = 'AAPL'
+batch_api_call_url = f'https://sandbox.iexapis.com/stable/stock/market/batch?symbols={symbol}&types=quote,advanced-stats&token={IEX_CLOUD_API_TOKEN}'
+data = requests.get(batch_api_call_url).json()
+
+# Price-to-earnings ratio
+pe_ratio = data[symbol]["quote"]["peRatio"]
+print(pe_ratio)
+# Price-to-book ratio
+pb_ratio = np.NaN
+
+# Price-to-sales ratio
+ps_ratio = np.NaN
+
+# Enterprise Value divided by Earnings Before Interest, Taxes, Depreciation, and Amortization (EV/EBITDA)
+ev_to_ebitda = np.NaN
+
+# Enterprise value divided by Gross Profit
+ev_to_gross_profit = np.NaN
