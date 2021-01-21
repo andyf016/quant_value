@@ -35,9 +35,20 @@ my_columns = ['Ticker', 'Price', 'Price-to-Earnings Ratio', 'Number of Shares to
 
 final_dataframe = pd.DataFrame(columns = my_columns)
 
+# make batch api calls
 for symbol_string in symbol_strings:
     batch_api_call_url = f'https://sandbox.iexapis.com/stable/stock/market/batch?symbols={symbol_string}&types=quote&token={IEX_CLOUD_API_TOKEN}'
-    data = requests.get(batch_api_call_url)
-    print(data.status_code)
+    data = requests.get(batch_api_call_url).json()
     for symbol in symbol_string.split(','):
-        pass
+        final_dataframe = final_dataframe.append(
+            pd.Series(
+                [
+                    symbol,
+                    data[symbol]['quote']['latestPrice'],
+                    data[symbol]['quote']['peRatio'],
+                    'N/A'
+                ],
+                index = my_columns
+            ), ignore_index = True
+        )
+print(final_dataframe)
