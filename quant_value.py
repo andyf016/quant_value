@@ -107,3 +107,11 @@ ev_to_ebitda = np.NaN
 
 # Enterprise value divided by Gross Profit
 ev_to_gross_profit = np.NaN
+
+rv_columns = [
+    'Price-to-earnings ratio',
+    'Price-to-book ratio',
+    'Price-to-sales ratio',
+    'EV/EBITDA',
+    'EVDGP'
+]
