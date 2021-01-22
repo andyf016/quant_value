@@ -132,7 +132,7 @@ rv_columns = [
     'EV/GP Percentile',
     'RV Score'
 ]
-print(len(rv_columns))
+
 # create rv Pandas Dataframe
 rv_dataframe = pd.DataFrame(columns = rv_columns)
 
@@ -172,7 +172,12 @@ for symbol_string in symbol_strings:
             index = rv_columns),
             ignore_index = True
         )
-        # print(rv_dataframe)
+
+
+# replace missing data with the average non NaN datapoint from that column
+for column in ['Price-to-earnings ratio', 'Price-to-book ratio', 'Price-to-sales ratio', 'EV/EBITDA', 'EV/GP']:
+    rv_dataframe[column].fillna(rv_dataframe[column].mean(), inplace = True)
+rv_dataframe[rv_dataframe.isnull().any(axis=1)]
 
 
 
