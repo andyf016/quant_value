@@ -93,20 +93,27 @@ symbol = 'AAPL'
 batch_api_call_url = f'https://sandbox.iexapis.com/stable/stock/market/batch?symbols={symbol}&types=quote,advanced-stats&token={IEX_CLOUD_API_TOKEN}'
 data = requests.get(batch_api_call_url).json()
 
+
 # Price-to-earnings ratio
 pe_ratio = data[symbol]["quote"]["peRatio"]
-print(pe_ratio)
+
+
 # Price-to-book ratio
-pb_ratio = np.NaN
+pb_ratio = data[symbol]['advanced-stats']['priceToBook']
 
 # Price-to-sales ratio
-ps_ratio = np.NaN
+ps_ratio = data[symbol]['advanced-stats']['priceToSales']
 
 # Enterprise Value divided by Earnings Before Interest, Taxes, Depreciation, and Amortization (EV/EBITDA)
-ev_to_ebitda = np.NaN
+enterprise_value = data[symbol]['advanced-stats']['enterpriseValue']
+ebitda = data[symbol]['advanced-stats']['EBITDA']
+ev_to_ebitda = enterprise_value/ebitda
+
 
 # Enterprise value divided by Gross Profit
-ev_to_gross_profit = np.NaN
+gross_profit = data[symbol]['advanced-stats']['grossProfit']
+ev_to_gross_profit = enterprise_value/gross_profit
+
 
 rv_columns = [
     'Price-to-earnings ratio',
