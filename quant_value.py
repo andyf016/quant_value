@@ -5,6 +5,7 @@ import requests
 from scipy import stats
 from scipy.stats import percentileofscore as score
 import math
+from statistics import mean
 from secrets import IEX_CLOUD_API_TOKEN
 
 stocks = pd.read_csv('sp_500_stocks.csv')
@@ -189,7 +190,16 @@ metrics ={
     'EV/GP': 'EV/GP Percentile',
 }
 
+# calc and add percentile score to rv dataframe
 for metric in metrics.keys():
     for row in rv_dataframe.index:
         rv_dataframe.loc[row, metrics[metric]] = score(rv_dataframe[metric], rv_dataframe.loc[row, metric])
+
+#calc and add RV score to rv dataframe
+for row in rv_dataframe.index:
+    value_percentiles = []
+    for metric in metrics.keys():
+        value_percentiles.append(rv_dataframe.loc[row, metrics[metric]])
+    rv_dataframe.loc[row, 'RV Score'] = mean(value_percentiles)
+
 print(rv_dataframe)
