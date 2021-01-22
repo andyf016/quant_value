@@ -3,6 +3,7 @@ import pandas as pd
 import xlsxwriter
 import requests
 from scipy import stats
+from scipy.stats import percentileofscore as score
 import math
 from secrets import IEX_CLOUD_API_TOKEN
 
@@ -180,5 +181,15 @@ for column in ['Price-to-earnings ratio', 'Price-to-book ratio', 'Price-to-sales
 rv_dataframe[rv_dataframe.isnull().any(axis=1)]
 
 
+metrics ={  
+    'Price-to-earnings ratio': 'PE Percentile',
+    'Price-to-book ratio': 'PB Percentile',
+    'Price-to-sales ratio': 'PS Percentile',
+    'EV/EBITDA': 'EV/EBITDA Percentile',
+    'EV/GP': 'EV/GP Percentile',
+}
 
-     
+for metric in metrics.keys():
+    for row in rv_dataframe.index:
+        rv_dataframe.loc[row, metrics[metric]] = score(rv_dataframe[metric], rv_dataframe.loc[row, metric])
+print(rv_dataframe)
