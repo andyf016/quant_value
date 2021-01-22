@@ -246,6 +246,15 @@ integer_template = writer.book.add_format(
         }
     )
 
+float_template = writer.book.add_format(
+    {
+        'num_format': '0.0',
+        'font_color': font_color,
+        'bg_color': background_color,
+        'border': 1
+    }
+)
+
 percent_template = writer.book.add_format(
         {
             'num_format':'0.0%',
@@ -256,17 +265,23 @@ percent_template = writer.book.add_format(
     )
 
 
-    'Ticker',
-    'Price',
-    'Number of Shares to Buy',
-    'Price-to-earnings ratio',
-    'PE Percentile',
-    'Price-to-book ratio',
-    'PB Percentile',
-    'Price-to-sales ratio',
-    'PS Percentile',
-    'EV/EBITDA',
-    'EV/EBITDA Percentile',
-    'EV/GP',
-    'EV/GP Percentile',
-    'RV Score'
+column_formats = {
+    'A': ['Ticker', string_template],
+    'B': ['Price', dollar_template],
+    'C': ['Number of Shares to Buy', integer_template],
+    'D': ['Price-to-earnings ratio', float_template],
+    'E': ['PE Percentile', percent_template],
+    'F': ['Price-to-book ratio', float_template],
+    'G': ['PB Percentile', percent_template],
+    'H': ['Price-to-sales ratio', float_template],
+    'I': ['PS Percentile', percent_template],
+    'J': ['EV/EBITDA', float_template],
+    'K': ['EV/EBITDA Percentile', percent_template],
+    'L': ['EV/GP', string_template],
+    'M': ['EV/GP Percentile', percent_template],
+    'N': ['RV Score', percent_template]
+    }
+
+for column in column_formats.keys():
+    writer.sheets['Value Strategy'].set_column(f'{column}:{column}', 25, column_formats[column][1])
+writer.save()
