@@ -123,7 +123,7 @@ rv_columns = [
     'Price-to-earnings ratio',
     'PE Percentile',
     'Price-to-book ratio',
-    'PB Percentile'
+    'PB Percentile',
     'Price-to-sales ratio',
     'PS Percentile',
     'EV/EBITDA',
@@ -132,7 +132,7 @@ rv_columns = [
     'EV/GP Percentile',
     'RV Score'
 ]
-
+print(len(rv_columns))
 # create rv Pandas Dataframe
 rv_dataframe = pd.DataFrame(columns = rv_columns)
 
@@ -152,22 +152,28 @@ for symbol_string in symbol_strings:
             ev_to_gross_profit = enterprise_value/gross_profit
         except TypeError:
             ev_to_gross_profit = np.NaN
-        rv_dataframe = rv_dataframe.append(pd.series([
-            symbol,
-            data[symbol]['quote']['latestPrice'],
-            'N/A',
-            data[symbol]["quote"]["peRatio"],
-            'N/A',
-            data[symbol]['advanced-stats']['priceToBook'],
-            'N/A'
-            data[symbol]['advanced-stats']['priceToSales'],
-            'N/A',
-            ev_to_ebitda,
-            'N/A',
-            enterprise_value/gross_profit,
-            'N/A',
-            'N/A'
-        ], index = rv_columns),
-        ignore_index = True
+        rv_dataframe = rv_dataframe.append(
+            pd.Series([
+                symbol,
+                data[symbol]['quote']['latestPrice'],
+                'N/A',
+                data[symbol]['quote']['peRatio'],
+                'N/A',
+                data[symbol]['advanced-stats']['priceToBook'],
+                'N/A',
+                data[symbol]['advanced-stats']['priceToSales'],
+                'N/A',
+                ev_to_ebitda,
+                'N/A',
+                ev_to_gross_profit,
+                'N/A',
+                'N/A'
+            ],
+            index = rv_columns),
+            ignore_index = True
         )
-    print(data)
+        # print(rv_dataframe)
+
+
+
+     
