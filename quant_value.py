@@ -248,7 +248,7 @@ integer_template = writer.book.add_format(
 
 float_template = writer.book.add_format(
     {
-        'num_format': '0.0',
+        'num_format': '0.00',
         'font_color': font_color,
         'bg_color': background_color,
         'border': 1
@@ -284,4 +284,5 @@ column_formats = {
 
 for column in column_formats.keys():
     writer.sheets['Value Strategy'].set_column(f'{column}:{column}', 25, column_formats[column][1])
+    writer.sheets['Value Strategy'].write(f'{column}1', column_formats[column][0], column_formats[column][1])
 writer.save()
