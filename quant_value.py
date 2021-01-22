@@ -214,4 +214,59 @@ for row in rv_dataframe.index:
 
 #format Excel output with XlsxWriter
 writer  = pd.ExcelWriter('value_strategy.xlsx', engine = 'xlsxwriter')
-writer.save()
+rv_dataframe.to_excel(writer, sheet_name = 'Value Strategy', index = False)
+
+#format excel sheet
+background_color = '#0a0a23'
+font_color = '#ffffff'
+
+string_template = writer.book.add_format(
+        {
+            'font_color': font_color,
+            'bg_color': background_color,
+            'border': 1
+        }
+    )
+
+dollar_template = writer.book.add_format(
+        {
+            'num_format':'$0.00',
+            'font_color': font_color,
+            'bg_color': background_color,
+            'border': 1
+        }
+    )
+
+integer_template = writer.book.add_format(
+        {
+            'num_format':'0',
+            'font_color': font_color,
+            'bg_color': background_color,
+            'border': 1
+        }
+    )
+
+percent_template = writer.book.add_format(
+        {
+            'num_format':'0.0%',
+            'font_color': font_color,
+            'bg_color': background_color,
+            'border': 1
+        }
+    )
+
+
+    'Ticker',
+    'Price',
+    'Number of Shares to Buy',
+    'Price-to-earnings ratio',
+    'PE Percentile',
+    'Price-to-book ratio',
+    'PB Percentile',
+    'Price-to-sales ratio',
+    'PS Percentile',
+    'EV/EBITDA',
+    'EV/EBITDA Percentile',
+    'EV/GP',
+    'EV/GP Percentile',
+    'RV Score'
