@@ -212,4 +212,6 @@ rv_position = float(portfolio_size)/len(rv_dataframe.index)
 for row in rv_dataframe.index:
     rv_dataframe.loc[row, 'Number of Shares to Buy'] = math.floor(rv_position/rv_dataframe.loc[row, "Price"])
 
-print(rv_dataframe)
+#format Excel output with XlsxWriter
+writer  = pd.ExcelWriter('value_strategy.xlsx', engine = 'xlsxwriter')
+writer.save()
