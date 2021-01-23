@@ -29,10 +29,10 @@ for i in range(0, len(symbol_groups)):
 #    print(symbol_strings[i])
 
 # columns for pandas data frame
-my_columns = ['Ticker', 'Price', 'Price-to-Earnings Ratio', 'Number of Shares to Buy']
+#my_columns = ['Ticker', 'Price', 'Price-to-Earnings Ratio', 'Number of Shares to Buy']
 
-final_dataframe = pd.DataFrame(columns = my_columns)
-
+#final_dataframe = pd.DataFrame(columns = my_columns)
+'''
 # make batch api calls
 for symbol_string in symbol_strings:
     batch_api_call_url = f'https://sandbox.iexapis.com/stable/stock/market/batch?symbols={symbol_string}&types=quote&token={IEX_CLOUD_API_TOKEN}'
@@ -59,7 +59,7 @@ final_dataframe = final_dataframe[final_dataframe['Price-to-Earnings Ratio'] > 0
 final_dataframe = final_dataframe[:50]
 final_dataframe.reset_index(inplace = True)
 final_dataframe.drop('index', axis=1, inplace = True)
-
+'''
 
 def portfolio_input():
     global portfolio_size 
@@ -73,12 +73,12 @@ def portfolio_input():
 
 portfolio_input()
 # print(final_dataframe)
-
+'''
 position_size = float(portfolio_size)/len(final_dataframe.index)
 for row in final_dataframe.index:
     final_dataframe.loc[row, 'Number of Shares to Buy'] = math.floor(position_size/final_dataframe.loc[row, 'Price'])
 #print(final_dataframe)
-
+'''
 """
 Start filtering stocks with the lowest percentiles on the following metrics:
 - Price-to-earnings ratio
