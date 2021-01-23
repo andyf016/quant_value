@@ -1,5 +1,5 @@
 # Quantitative Value Investing App
-This app will take in a portfolio value in dollars and return an xls spreadsheet containing to best 50 stocks from the S&P 500 and how many shares to buy of each. 
+This app will take in a portfolio value in dollars and return an xlsx spreadsheet containing to best 50 stocks from the S&P 500 and how many shares to buy of each. 
 
 Quantitative value investing, also known as Systematic value investing, is a form of value investing that analyzes fundamental data such as financial statement line items, economic data, and unstructured data in a rigorous and systematic manner. Practitioners often employ quantitative applications such as statistical / empirical finance or mathematical finance, behavioral finance, natural language processing, and machine learning.
 https://en.wikipedia.org/wiki/Quantitative_value_investing

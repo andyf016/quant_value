@@ -77,7 +77,7 @@ portfolio_input()
 position_size = float(portfolio_size)/len(final_dataframe.index)
 for row in final_dataframe.index:
     final_dataframe.loc[row, 'Number of Shares to Buy'] = math.floor(position_size/final_dataframe.loc[row, 'Price'])
-print(final_dataframe)
+#print(final_dataframe)
 
 """
 Start filtering stocks with the lowest percentiles on the following metrics:
