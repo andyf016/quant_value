@@ -2,3 +2,4 @@
 /.vscode
 secrets.py
 value_strategy.xlsx
+__pycache__
